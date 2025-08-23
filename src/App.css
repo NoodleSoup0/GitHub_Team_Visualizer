@@ -1,42 +1,161 @@
-.App {
+:root {
+  --bg: #f9fafb;
+  --card-bg: #fff;
+  --primary: #1f2937;
+  --accent: #2563eb;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --radius: 12px;
+  --shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background: linear-gradient(120deg, #f9fafb, #e0e7ff);
+  color: var(--primary);
+  line-height: 1.5;
+}
+
+/* Header & Nav */
+
+header {
+  background: #ffffff;
+  display: flex;
+  justify-content: space-around; /* evenly space links across full width */
+  align-items: center;
+  padding: 1rem 0;
+  position: sticky;
+}
+
+header h1 {
+  font-size: 1.5rem;
+  color: #222;
+}
+
+nav a {
+  margin: 0 1rem;
+  text-decoration: none;
+  color: #222;
+  font-weight: 500;
+  position: relative;
+}
+
+nav a:hover,
+nav a.active {
+  color: #111;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  left: 0;
+  bottom: -4px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+nav a:hover::after,
+nav a.active::after {
+  width: 100%;
+}
+
+/* Main layout */
+main {
+  padding: 2rem;
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* Card & Stats */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.stat {
+  flex: 1;
+  background: var(--bg);
+  border-radius: var(--radius);
+  padding: 1rem;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.stat h3 {
+  font-size: 2rem;
+  color: var(--accent);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Tables */
+.table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.table th, .table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.table th {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Placeholder charts */
+.placeholder-chart {
+  height: 200px;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  color: var(--muted);
+  font-size: 0.9rem;
 }
 
-.App-link {
-  color: #61dafb;
+/* Simple form for repo input */
+.repo-form div {
+  margin-bottom: 1rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.repo-form label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
 }
 
-button {
-  font-size: calc(10px + 2vmin);
+.repo-form input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.repo-form button {
+  padding: 0.5rem 1rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.repo-form button:hover {
+  background: #1e40af;
 }
