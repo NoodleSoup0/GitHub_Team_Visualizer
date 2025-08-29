@@ -9,20 +9,15 @@ import Releases from './pages/Releases';
 
 const App = () => {
   return (
-    <Router>
-      <div className="App">
-        <header className="App-header">
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/team" element={<Team />} />
-            <Route path="/reviews" element={<Reviews />} />
-            <Route path="/workload" element={<Workload />} />
-            <Route path="/releases" element={<Releases />} />
-            
-          </Routes>
-        </header>
-      </div>
-    </Router>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/team" element={<Team />} />
+          <Route path="/reviews" element={<Reviews />} />
+          <Route path="/workload" element={<Workload />} />
+          <Route path="/releases" element={<Releases />} />
+        </Routes>
+      </Router>
   );
 };
 

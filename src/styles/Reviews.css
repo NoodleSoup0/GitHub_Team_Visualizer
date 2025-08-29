@@ -1,0 +1,35 @@
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.table th {
+  text-align: left;
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+.table td:first-child {
+  text-align: left; /* reviewer name */
+}
+
+.table td:last-child {
+  text-align: right; /* numbers aligned right */
+}
+
+.table tr:nth-child(even) {
+  background-color: #fafafa; /* subtle zebra striping */
+}
+
+.table td:last-child {
+  text-align: right;
+  font-family: monospace;
+}

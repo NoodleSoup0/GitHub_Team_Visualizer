@@ -1,53 +1,72 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RepoForm from "../components/RepoForm";
-// import "./style/Dashboard.css";
+import { getRepoStats } from "../util/githubService";
+import Navbar from "../components/NavBar";
 
 export default function Dashboard() {
-  const [repoData, setRepoData] = useState(null);
+  const [repoData, setRepoData] = useState({ owner: "", repo: "" });
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleRepoSubmit = (owner, repo) => {
-    console.log("Fetching data for:", owner, repo);
-    // TODO: call githubService.js functions here
-    setRepoData({ owner, repo }); // temporary mock
+    setRepoData({ owner, repo });
   };
+
+  useEffect(() => {
+    if (!repoData.owner || !repoData.repo) return;
+
+    const fetchStats = async () => {
+      setLoading(true);
+      try {
+        const data = await getRepoStats(repoData.owner, repoData.repo);
+        setStats(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, [repoData]);
 
   return (
     <div>
-      <header>
-        <h1>GitHub Team Visualizer</h1>
-        <nav>
-          <a href="/">Dashboard</a>
-          <a href="/team">Team Productivity</a>
-          <a href="/reviews">Reviews</a>
-          <a href="/workload">Workload</a>
-          <a href="/releases">Releases</a>
-        </nav>
-      </header>
+      <Navbar />
 
       <main>
         <RepoForm onSubmit={handleRepoSubmit} />
 
-        {repoData && (
+        {repoData.owner && repoData.repo && (
           <div className="card">
-            <h2>Team Overview for {repoData.owner}/{repoData.repo}</h2>
-            <div className="stats">
-              <div className="stat">
-                <h3>128</h3>
-                <p>Commits</p>
+            <h2>
+              Team Overview for {repoData.owner}/{repoData.repo}
+            </h2>
+
+            {loading ? (
+              <p>Loading stats...</p>
+            ) : stats ? (
+              <div className="stats">
+                <div className="stat">
+                  <h3>{stats.commits}</h3>
+                  <p>Commits</p>
+                </div>
+                <div className="stat">
+                  <h3>{stats.prsMerged}</h3>
+                  <p>PRs Merged</p>
+                </div>
+                <div className="stat">
+                  <h3>{stats.issuesClosed}</h3>
+                  <p>Issues Closed</p>
+                </div>
+                <div className="stat">
+                  <h3>{stats.milestones}</h3>
+                  <p>Active Milestones</p>
+                </div>
               </div>
-              <div className="stat">
-                <h3>34</h3>
-                <p>PRs Merged</p>
-              </div>
-              <div className="stat">
-                <h3>56</h3>
-                <p>Issues Closed</p>
-              </div>
-              <div className="stat">
-                <h3>4</h3>
-                <p>Active Milestones</p>
-              </div>
-            </div>
+            ) : (
+              <p>No data available</p>
+            )}
           </div>
         )}
       </main>

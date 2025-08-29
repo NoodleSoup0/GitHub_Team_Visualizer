@@ -1,24 +1,30 @@
-import React from "react";
-// import "./style/Workload.css";
+import React, { useState } from "react";
+import WorkloadTimeline from "../components/WorkloadTimeline";
+import RepoForm from "../components/RepoForm";
+import Navbar from "../components/NavBar";
 
 export default function Workload() {
+  const [repoData, setRepoData] = useState({ owner: "", repo: "" });
+
+  const handleRepoSubmit = (owner, repo) => {
+    setRepoData({ owner, repo });
+  };
+
   return (
     <div>
-      <header>
-        <h1>Workload Balance</h1>
-        <nav>
-          <a href="/">Dashboard</a>
-          <a href="/team">Team Productivity</a>
-          <a href="/reviews">Reviews</a>
-          <a href="/workload">Workload</a>
-          <a href="/releases">Releases</a>
-        </nav>
-      </header>
+      <Navbar />
+
       <main>
-        <div className="card">
-          <h2>Issues Assigned per Member</h2>
-          <div className="placeholder-chart">[Balance Chart Placeholder]</div>
-        </div>
+        <RepoForm onSubmit={handleRepoSubmit} />
+
+        {repoData.owner && repoData.repo ? (
+          <div className="card">
+            <h2>Issues Assigned per Member Over Time</h2>
+            <WorkloadTimeline owner={repoData.owner} repo={repoData.repo} />
+          </div>
+        ) : (
+          <p>Please select a repository.</p>
+        )}
       </main>
     </div>
   );
