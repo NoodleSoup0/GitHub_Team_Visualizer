@@ -5,7 +5,7 @@ import Navbar from "../components/NavBar";
 import { useRepo } from "../components/RepoContext";
 
 export default function Dashboard() {
-  const { repoData } = useRepo(); // <-- get repo from context
+  const { repoData } = useRepo();
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -14,14 +14,9 @@ export default function Dashboard() {
 
     const fetchStats = async () => {
       setLoading(true);
-      try {
-        const data = await getRepoStats(repoData.owner, repoData.repo);
-        setStats(data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
+      const data = await getRepoStats(repoData.owner, repoData.repo);
+      setStats(data);
+      setLoading(false);
     };
 
     fetchStats();
@@ -31,38 +26,40 @@ export default function Dashboard() {
     <div>
       <Navbar />
 
-      <main>
-        <RepoForm /> {/* no need to pass onSubmit, RepoForm updates context directly */}
+      <main className="p-6 space-y-6">
+        <RepoForm />
 
         {repoData.owner && repoData.repo && (
-          <div className="card">
-            <h2>
+          <div className="card p-4 rounded-xl shadow bg-white">
+            <h2 className="text-xl font-semibold mb-4">
               Team Overview for {repoData.owner}/{repoData.repo}
             </h2>
 
             {loading ? (
-              <p>Loading stats...</p>
+              <p className="text-gray-600">Loading stats...</p>
+            ) : stats?.error ? (
+              <p className="text-red-600 font-medium">{stats.error}</p>
             ) : stats ? (
-              <div className="stats">
-                <div className="stat">
-                  <h3>{stats.commits}</h3>
-                  <p>Commits</p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="stat text-center">
+                  <h3 className="text-lg font-bold">{stats.commits}</h3>
+                  <p className="text-sm text-gray-500">Commits</p>
                 </div>
-                <div className="stat">
-                  <h3>{stats.prsMerged}</h3>
-                  <p>PRs Merged</p>
+                <div className="stat text-center">
+                  <h3 className="text-lg font-bold">{stats.prsMerged}</h3>
+                  <p className="text-sm text-gray-500">PRs Merged</p>
                 </div>
-                <div className="stat">
-                  <h3>{stats.issuesClosed}</h3>
-                  <p>Issues Closed</p>
+                <div className="stat text-center">
+                  <h3 className="text-lg font-bold">{stats.issuesClosed}</h3>
+                  <p className="text-sm text-gray-500">Issues Closed</p>
                 </div>
-                <div className="stat">
-                  <h3>{stats.milestones}</h3>
-                  <p>Active Milestones</p>
+                <div className="stat text-center">
+                  <h3 className="text-lg font-bold">{stats.milestones}</h3>
+                  <p className="text-sm text-gray-500">Active Milestones</p>
                 </div>
               </div>
             ) : (
-              <p>No data available</p>
+              <p className="text-gray-500 italic">No data available.</p>
             )}
           </div>
         )}

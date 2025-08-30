@@ -1,35 +1,56 @@
 const GITHUB_API_BASE = "https://api.github.com/repos";
 
 /**
- * Fetch JSON from GitHub public API
+ * Fetch JSON from GitHub public API with error handling
  * @param {string} endpoint - the endpoint after base URL
  */
 async function githubFetch(endpoint) {
-  const response = await fetch(`${GITHUB_API_BASE}${endpoint}`);
-  if (!response.ok) {
-    throw new Error(`GitHub API error: ${response.status}`);
+  try {
+    const response = await fetch(`${GITHUB_API_BASE}${endpoint}`);
+
+    if (response.status === 404) {
+      throw new Error("not_found");
+    }
+    if (!response.ok) {
+      throw new Error("network_error");
+    }
+
+    return await response.json();
+  } catch (err) {
+    if (err.message === "not_found") {
+      return { error: "⚠️ Could not fetch team data. Please check that the repository exists, is public, and try again." };
+    }
+    return { error: "Network error. Please wait and try again." };
   }
-  return await response.json();
 }
 
 /**
  * Get team productivity for a public repo
  */
 export async function getTeamProductivity(owner, repo) {
-  const contributors = await githubFetch(`/${owner}/${repo}/contributors`);
-  const prs = await githubFetch(`/${owner}/${repo}/pulls?state=closed&per_page=100`);
-  const issues = await githubFetch(`/${owner}/${repo}/issues?state=closed&per_page=100`);
+  try {
+    const contributors = await githubFetch(`/${owner}/${repo}/contributors`);
+    if (contributors.error) return contributors;
 
-  return contributors.map((contributor) => {
-    const userPRs = prs.filter(pr => pr.user?.login === contributor.login && pr.merged_at).length;
-    const userIssues = issues.filter(issue => issue.user?.login === contributor.login && !issue.pull_request).length;
-    return {
-      login: contributor.login,
-      commits: contributor.contributions,
-      prs: userPRs,
-      issues: userIssues,
-    };
-  });
+    const prs = await githubFetch(`/${owner}/${repo}/pulls?state=closed&per_page=100`);
+    if (prs.error) return prs;
+
+    const issues = await githubFetch(`/${owner}/${repo}/issues?state=closed&per_page=100`);
+    if (issues.error) return issues;
+
+    return contributors.map((contributor) => {
+      const userPRs = prs.filter(pr => pr.user?.login === contributor.login && pr.merged_at).length;
+      const userIssues = issues.filter(issue => issue.user?.login === contributor.login && !issue.pull_request).length;
+      return {
+        login: contributor.login,
+        commits: contributor.contributions,
+        prs: userPRs,
+        issues: userIssues,
+      };
+    });
+  } catch {
+    return { error: "Unexpected error. Please try again later." };
+  }
 }
 
 /**
@@ -64,60 +85,78 @@ export async function getReviewInsights(owner, repo) {
   return { topReviewers, avgTimeHours, pendingReviews };
 }
 
+
 /**
  * Get workload timeline
  */
 export async function getWorkloadTimeline(owner, repo) {
-  const issues = await githubFetch(`/${owner}/${repo}/issues?state=all&per_page=100`);
-  const timeline = {};
+  try {
+    const issues = await githubFetch(`/${owner}/${repo}/issues?state=all&per_page=100`);
+    if (issues.error) return issues;
 
-  issues.forEach(issue => {
-    if (issue.pull_request) return;
-    const date = issue.created_at.slice(0,10);
-    if (!timeline[date]) timeline[date] = {};
-    issue.assignees?.forEach(assignee => {
-      timeline[date][assignee.login] = (timeline[date][assignee.login] || 0) + 1;
+    const timeline = {};
+    issues.forEach(issue => {
+      if (issue.pull_request) return;
+      const date = issue.created_at.slice(0, 10);
+      if (!timeline[date]) timeline[date] = {};
+      issue.assignees?.forEach(assignee => {
+        timeline[date][assignee.login] = (timeline[date][assignee.login] || 0) + 1;
+      });
     });
-  });
 
-  return timeline;
+    return timeline;
+  } catch {
+    return { error: "Unexpected error. Please try again later." };
+  }
 }
 
-/**
- * Get repo stats
- */
 /**
  * Helper to get total count from GitHub paginated endpoint
  */
 async function getTotalCount(endpoint) {
-  const response = await fetch(`${GITHUB_API_BASE}${endpoint}&per_page=1`);
-  if (!response.ok) throw new Error(`GitHub API error: ${response.status}`);
-  
-  const link = response.headers.get("link");
-  if (!link) {
-    // No pagination, either 0 or 1 item
-    const data = await response.json();
-    return data.length;
-  }
+  try {
+    const response = await fetch(`${GITHUB_API_BASE}${endpoint}&per_page=1`);
+    if (response.status === 404) {
+      return { error: "⚠️ Could not fetch team data. Please check that the repository exists, is public, and try again." };
+    }
+    if (!response.ok) {
+      return { error: "Network error. Please wait and try again." };
+    }
 
-  // Parse last page from Link header
-  const match = link.match(/&page=(\d+)>; rel="last"/);
-  return match ? parseInt(match[1], 10) : 0;
+    const link = response.headers.get("link");
+    if (!link) {
+      // No pagination, either 0 or 1 item
+      const data = await response.json();
+      return data.length;
+    }
+
+    // Parse last page from Link header
+    const match = link.match(/&page=(\d+)>; rel="last"/);
+    return match ? parseInt(match[1], 10) : 0;
+  } catch {
+    return { error: "Unexpected error. Please try again later." };
+  }
 }
 
 /**
  * Get repository stats
  */
 export async function getRepoStats(owner, repo) {
-  const commits = await getTotalCount(`/${owner}/${repo}/commits?sha=main`);
-  const prsMerged = await getTotalCount(`/${owner}/${repo}/pulls?state=closed`);
-  const issuesClosed = await getTotalCount(`/${owner}/${repo}/issues?state=closed`);
-  const milestones = await getTotalCount(`/${owner}/${repo}/milestones?state=open`);
+  try {
+    const commits = await getTotalCount(`/${owner}/${repo}/commits?sha=main`);
+    if (commits.error) return commits;
 
-  return {
-    commits,
-    prsMerged,
-    issuesClosed,
-    milestones
-  };
+    const prsMerged = await getTotalCount(`/${owner}/${repo}/pulls?state=closed`);
+    if (prsMerged.error) return prsMerged;
+
+    const issuesClosed = await getTotalCount(`/${owner}/${repo}/issues?state=closed`);
+    if (issuesClosed.error) return issuesClosed;
+
+    const milestones = await getTotalCount(`/${owner}/${repo}/milestones?state=open`);
+    if (milestones.error) return milestones;
+
+    return { commits, prsMerged, issuesClosed, milestones };
+  } catch {
+    return { error: "Unexpected error. Please try again later." };
+  }
 }

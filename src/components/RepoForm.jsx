@@ -29,7 +29,7 @@ export default function RepoForm() {
         </p>
       ) : (
         <p className="mb-4 text-sm text-gray-500 italic">
-          No repository selected. Please add one below.
+          No repository selected yet. Please enter a public repository below to get started.
         </p>
       )}
 
