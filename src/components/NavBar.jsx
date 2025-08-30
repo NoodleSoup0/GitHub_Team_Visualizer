@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import FontSizeControls from "./FontSizeControls";
 
 export default function Navbar() {
@@ -6,11 +7,11 @@ export default function Navbar() {
       <h1 className="text-xl font-bold">GitHub Team Visualizer</h1>
       <FontSizeControls />
       <nav className="flex gap-4 mt-2">
-        <a href="/">Dashboard</a>
-        <a href="/team">Team Productivity</a>
-        <a href="/reviews">Reviews</a>
-        <a href="/workload">Workload</a>
-        <a href="/releases">Releases</a>
+        <Link to="/">Dashboard</Link>
+        <Link to="/team">Team Productivity</Link>
+        <Link to="/reviews">Reviews</Link>
+        {/* <Link to="/workload">Workload</Link> */}
+        <Link to="/releases">Releases</Link>
       </nav>
     </header>
   );

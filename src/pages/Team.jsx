@@ -2,15 +2,12 @@ import React, { useState, useEffect } from "react";
 import { getTeamProductivity } from "../util/githubService";
 import RepoForm from "../components/RepoForm";
 import Navbar from "../components/NavBar";
+import { useRepo } from "../components/RepoContext";
 
 export default function Team() {
-  const [repoData, setRepoData] = useState({ owner: "", repo: "" });
+  const { repoData } = useRepo(); // get repo from context
   const [teamData, setTeamData] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const handleRepoSubmit = (owner, repo) => {
-    setRepoData({ owner, repo });
-  };
 
   useEffect(() => {
     if (!repoData.owner || !repoData.repo) return;
@@ -36,7 +33,7 @@ export default function Team() {
       <Navbar />
 
       <main>
-        <RepoForm onSubmit={handleRepoSubmit} />
+        <RepoForm /> {/* updates context directly */}
 
         {repoData.owner && repoData.repo ? (
           <div className="card">

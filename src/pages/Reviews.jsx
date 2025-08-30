@@ -2,16 +2,13 @@ import React, { useEffect, useState } from "react";
 import { getReviewInsights } from "../util/githubService";
 import RepoForm from "../components/RepoForm";
 import Navbar from "../components/NavBar";
+import { useRepo } from "../components/RepoContext";
 import '../styles/Reviews.css';
 
 export default function Reviews() {
-  const [repoData, setRepoData] = useState({ owner: "", repo: "" });
+  const { repoData } = useRepo(); // get repo from context
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  const handleRepoSubmit = (owner, repo) => {
-    setRepoData({ owner, repo });
-  };
 
   useEffect(() => {
     if (!repoData.owner || !repoData.repo) return;
@@ -37,7 +34,7 @@ export default function Reviews() {
       <Navbar />
 
       <main>
-        <RepoForm onSubmit={handleRepoSubmit} />
+        <RepoForm /> {/* updates context directly */}
 
         {!repoData.owner || !repoData.repo ? (
           <p>Please select a repository.</p>
@@ -68,7 +65,6 @@ export default function Reviews() {
                 <p>No data available</p>
               )}
             </div>
-
 
             <div className="card">
               <h2>Average Time to Merge</h2>

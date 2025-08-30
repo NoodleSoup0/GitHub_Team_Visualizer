@@ -2,15 +2,12 @@ import React, { useEffect, useState } from "react";
 import RepoForm from "../components/RepoForm";
 import { getRepoStats } from "../util/githubService";
 import Navbar from "../components/NavBar";
+import { useRepo } from "../components/RepoContext";
 
 export default function Dashboard() {
-  const [repoData, setRepoData] = useState({ owner: "", repo: "" });
+  const { repoData } = useRepo(); // <-- get repo from context
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  const handleRepoSubmit = (owner, repo) => {
-    setRepoData({ owner, repo });
-  };
 
   useEffect(() => {
     if (!repoData.owner || !repoData.repo) return;
@@ -35,7 +32,7 @@ export default function Dashboard() {
       <Navbar />
 
       <main>
-        <RepoForm onSubmit={handleRepoSubmit} />
+        <RepoForm /> {/* no need to pass onSubmit, RepoForm updates context directly */}
 
         {repoData.owner && repoData.repo && (
           <div className="card">

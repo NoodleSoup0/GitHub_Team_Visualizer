@@ -1,16 +1,14 @@
+// src/pages/Releases.jsx
 import React, { useEffect, useState } from "react";
 import RepoForm from "../components/RepoForm";
+import { useRepo } from "../components/RepoContext";
 import Navbar from "../components/NavBar";
 
 export default function Releases() {
-  const [repoData, setRepoData] = useState({ owner: "", repo: "" });
+  const { repoData } = useRepo(); // get shared repo state
   const [issues, setIssues] = useState({ open: 0, closed: 0 });
   const [milestones, setMilestones] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const handleRepoSubmit = (owner, repo) => {
-    setRepoData({ owner, repo });
-  };
 
   useEffect(() => {
     if (!repoData.owner || !repoData.repo) return;
@@ -18,12 +16,7 @@ export default function Releases() {
     const fetchReleaseData = async () => {
       setLoading(true);
       try {
-        // 1. Fetch issues (open + closed counts)
-        const issuesRes = await fetch(
-          `https://api.github.com/search/issues?q=repo:${repoData.owner}/${repoData.repo}+type:issue`
-        );
-        const issuesData = await issuesRes.json();
-
+        // 1. Fetch open and closed issues count
         const openRes = await fetch(
           `https://api.github.com/search/issues?q=repo:${repoData.owner}/${repoData.repo}+type:issue+state:open`
         );
@@ -60,52 +53,47 @@ export default function Releases() {
       <Navbar />
 
       <main>
-        <RepoForm onSubmit={handleRepoSubmit} />
+        <RepoForm /> 
+        <div className="card">
+          <h2>Open vs Closed Issues</h2>
+          {loading ? (
+            <p>Loading issues...</p>
+          ) : (
+            <p>
+              Open: {issues.open} | Closed: {issues.closed}
+            </p>
+          )}
+        </div>
 
-        {repoData.owner && repoData.repo && (
-          <>
-            <div className="card">
-              <h2>Open vs Closed Issues</h2>
-              {loading ? (
-                <p>Loading issues...</p>
-              ) : (
-                <p>
-                  Open: {issues.open} | Closed: {issues.closed}
-                </p>
-              )}
-            </div>
-
-            <div className="card">
-              <h2>Milestone Progress</h2>
-              {loading ? (
-                <p>Loading milestones...</p>
-              ) : milestones.length > 0 ? (
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th>Milestone</th>
-                      <th>Open Issues</th>
-                      <th>Closed Issues</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {milestones.map((m) => (
-                      <tr key={m.id}>
-                        <td>{m.title}</td>
-                        <td>{m.open_issues}</td>
-                        <td>{m.closed_issues}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              ) : (
-                <p>No milestones found</p>
-              )}
-            </div>
-
-          </>
-        )}
+        <div className="card">
+          <h2>Milestone Progress</h2>
+          {loading ? (
+            <p>Loading milestones...</p>
+          ) : milestones.length > 0 ? (
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Milestone</th>
+                  <th>Open Issues</th>
+                  <th>Closed Issues</th>
+                </tr>
+              </thead>
+              <tbody>
+                {milestones.map((m) => (
+                  <tr key={m.id}>
+                    <td>{m.title}</td>
+                    <td>{m.open_issues}</td>
+                    <td>{m.closed_issues}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No milestones found</p>
+          )}
+        </div>
       </main>
     </div>
+
   );
 }

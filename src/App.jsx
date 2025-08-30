@@ -1,24 +1,22 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { RepoProvider } from "./components/RepoContext";
+import Releases from "./pages/Releases";
+import Reviews from "./pages/Reviews";
 import Dashboard from './pages/Dashboard';
 import Team from './pages/Team';
-import Reviews from './pages/Reviews';
-import Workload from './pages/Workload';
-import Releases from './pages/Releases';
+import './App.css';
 
-
-const App = () => {
+export default function App() {
   return (
+    <RepoProvider>
       <Router>
         <Routes>
           <Route path="/" element={<Dashboard />} />
-          <Route path="/team" element={<Team />} />
           <Route path="/reviews" element={<Reviews />} />
-          <Route path="/workload" element={<Workload />} />
+          <Route path="/team" element={<Team />} />
           <Route path="/releases" element={<Releases />} />
         </Routes>
       </Router>
+    </RepoProvider>
   );
-};
-
-export default App;
+}
