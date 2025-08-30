@@ -1,5 +1,5 @@
 :root {
-  --accent: #007bff; /* change this to whatever accent color you want */
+  --accent: #28a745; /* change this to whatever accent color you want */
 }
 
 .navbar {
@@ -76,12 +76,12 @@
 }
 
 .nav-link:hover {
-  color: #007bff;
+  color: #28a745;
 }
 
 .nav-link.active {
   font-weight: bold;
-  color: #007bff;
+  color: #28a745;
 }
 
 .nav-link.active::after {
@@ -91,6 +91,6 @@
   bottom: -2px;
   width: 100%;
   height: 2px;
-  background-color: #007bff;
+  background-color: #28a745;
   border-radius: 2px;
 }

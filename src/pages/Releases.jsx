@@ -63,51 +63,57 @@ export default function Releases() {
       <main className="releases-main">
         <RepoForm />
 
-        <div className="card">
-          <h2>Open vs Closed Issues</h2>
+        {!repoData.owner || !repoData.repo ? (
+          <p className="text-gray">Please select a repository.</p>
+        ) : (
+          <>
+            <div className="card">
+              <h2>Open vs Closed Issues</h2>
 
-          {loading ? (
-            <p className="text-gray">Loading issues...</p>
-          ) : error ? (
-            <p className="text-red">{error}</p>
-          ) : (
-            <p>
-              Open: <span className="font-semibold">{issues.open}</span> | Closed:{" "}
-              <span className="font-semibold">{issues.closed}</span>
-            </p>
-          )}
-        </div>
+              {loading ? (
+                <p className="text-gray">Loading issues...</p>
+              ) : error ? (
+                <p className="text-red">{error}</p>
+              ) : (
+                <p>
+                  Open: <span className="font-semibold">{issues.open}</span> | Closed:{" "}
+                  <span className="font-semibold">{issues.closed}</span>
+                </p>
+              )}
+            </div>
 
-        <div className="card">
-          <h2>Milestone Progress</h2>
+            <div className="card">
+              <h2>Milestone Progress</h2>
 
-          {loading ? (
-            <p className="text-gray">Loading milestones...</p>
-          ) : error ? (
-            <p className="text-red">{error}</p>
-          ) : milestones.length > 0 ? (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Milestone</th>
-                  <th>Open Issues</th>
-                  <th>Closed Issues</th>
-                </tr>
-              </thead>
-              <tbody>
-                {milestones.map((m) => (
-                  <tr key={m.id}>
-                    <td>{m.title}</td>
-                    <td>{m.open_issues}</td>
-                    <td>{m.closed_issues}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <p className="text-gray italic">No milestones found.</p>
-          )}
-        </div>
+              {loading ? (
+                <p className="text-gray">Loading milestones...</p>
+              ) : error ? (
+                <p className="text-red">{error}</p>
+              ) : milestones.length > 0 ? (
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>Milestone</th>
+                      <th>Open Issues</th>
+                      <th>Closed Issues</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {milestones.map((m) => (
+                      <tr key={m.id}>
+                        <td>{m.title}</td>
+                        <td>{m.open_issues}</td>
+                        <td>{m.closed_issues}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : (
+                <p className="text-gray italic">No milestones found.</p>
+              )}
+            </div>
+          </>
+        )}
       </main>
     </div>
   );

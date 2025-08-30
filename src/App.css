@@ -2,7 +2,7 @@
   --bg: #f9fafb;
   --card-bg: #fff;
   --primary: #1f2937;
-  --accent: #2563eb;
+  --accent: #28a745;
   --muted: #6b7280;
   --border: #e5e7eb;
   --radius: 12px;
@@ -128,6 +128,6 @@ main {
 }
 
 .repo-form button:hover {
-  background: #1e40af;
+  background: #28a745;
 }
 

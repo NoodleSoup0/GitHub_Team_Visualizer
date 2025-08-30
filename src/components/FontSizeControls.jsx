@@ -2,10 +2,15 @@ import { useState, useEffect } from 'react';
 import '../styles/FontSizeControls.css';
 
 function FontSizeControls() {
-  const [fontSize, setFontSize] = useState(17);
+  // Initialize from localStorage, fallback to 17
+  const [fontSize, setFontSize] = useState(() => {
+    const saved = localStorage.getItem('fontSize');
+    return saved ? Number(saved) : 17;
+  });
 
   useEffect(() => {
     document.documentElement.style.fontSize = `${fontSize}px`;
+    localStorage.setItem('fontSize', fontSize); // persist
   }, [fontSize]);
 
   const decreaseFont = () => setFontSize(size => Math.max(12, size - 2));
