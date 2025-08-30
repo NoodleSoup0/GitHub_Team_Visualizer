@@ -3,7 +3,7 @@ import RepoForm from "../components/RepoForm";
 import { getRepoStats } from "../util/githubService";
 import Navbar from "../components/NavBar";
 import { useRepo } from "../components/RepoContext";
-import "../styles/Dashboard.css"; // create this file
+import "../styles/Dashboard.css";
 
 export default function Dashboard() {
   const { repoData } = useRepo();

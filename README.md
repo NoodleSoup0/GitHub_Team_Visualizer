@@ -1,92 +1,28 @@
-# React Vitest Template
+# Project Title: GitHub Team Visualizer
+# Author: Linh Ly
+# Project Video: [here](!https://drive.google.com/file/d/1qi_YAL85jVkZVobRS2Lsjmjkp-hByE_r/view?usp=sharing)
 
-A starter template for building React apps with Vite. Includes Vitest for unit testing and
-a hefty .gitignore file.
+---
 
-# Requirements
+## How to Run & Use
+- To run, please do npm install and then npm start to start the localhost
+- To use, please input a valid public repository from Github into the fields (owner name and repository name). If a warning come up, read it to understand what the error is and how to fix.
 
-Node 20 or greater.
+---
 
-## Usage
+## Overview
 
-```
-mkdir your-app-name
-cd your-app-name
-npx degit criesbeck/react-vitest
-npm install
-```
-If the third step hangs after printing ``> cloned criesbeck/react-vitest#HEAD``, 
-just control-C to exit then run ``npm install``.
+The **GitHub Team Visualizer** is a React-based web application designed to provide a clear, visual overview of activity and collaboration in public GitHub repositories. It helps developers, team leads, and project managers quickly understand team productivity, code review processes, and project milestones.  
 
-## Test
+This makes the app a must for developers and managers, as it not only provides a quick overview of team performance but also surfaces potential bottlenecks and collaboration issues that might otherwise go unnoticed in GitHub’s default interface.
 
-Verify that the initial app works. Run
+---
 
-```
-npm start
-```
+## Features
 
-and open the URL displayed.
+- **Repository Selection**: Choose any public GitHub repository to analyze by entering the owner and repo name.
+- **Team Productivity**: View commits, merged pull requests, and issues closed per contributor.
+- **Code Review Insights**: See reviewers’ activity, average time to merge PRs, and pending reviews.
+- **Repository Stats**: Track overall commits, closed PRs, closed issues, and active milestones.
+- **Milestone Tracking**: Review milestones and the number of open/closed issues per milestone.
 
-Verify that the unit tests work with
-
-```
-npm test
-```
-
-Two tests should run and pass. 
-
-## Scripts
-
-**package.json** defines the following scripts:
-
-| Script           | Description                                         |
-| -----------------| --------------------------------------------------- |
-| npm start        | Runs the app in the development mode.               |
-| npm run dev      | Runs the app in the development mode.               |
-| npm run build    | Builds the app for production to the `dist` folder. |
-| npm run serve    | Serves the production build from the `dist` folder. |
-| npm test         | Starts a Jest-like test loop                        |
-| npm run coverage | Runs the tests, displays code coverage results      |
-
-
-## Git
-
-If everything is working, set up [your local and remote repositories](https://docs.github.com/en/get-started/importing-your-projects-to-github/importing-source-code-to-github/adding-locally-hosted-code-to-github#adding-a-local-repository-to-github-using-git).
-
-## Folder Structure
-
-```
-your-app-name
-├── node_modules
-├── public
-│   ├── favicon.svg
-│   └── robots.txt
-└── src
-    ├── App.css
-    ├── App.jsx
-    ├── index.css
-    ├── index.jsx
-    └── logo.svg
-├── .gitignore
-├── index.html
-├── package.json
-├── README.md
-├── vite.config.js
-```
-
-## Credits
-
-React-Vitest built and maintained by [Chris Riesbeck](https://github.com/criesbeck).
-
-Inspired by [SafdarJamal/vite-template-react](https://github.com/SafdarJamal/vite-template-react).
-Expanded to include Vitest and some sample tests.
-
-Thanks to Rich Harris for [degit](https://www.npmjs.com/package/degit).
-
-Gitignore file created with [the Toptal tool](https://www.toptal.com/developers/gitignore/api/react,firebase,visualstudiocode,macos,windows).
-
-
-## License
-
-This project is licensed under the terms of the [MIT license](./LICENSE).

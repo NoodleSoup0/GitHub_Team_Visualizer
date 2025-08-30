@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import RepoForm from "../components/RepoForm";
 import { useRepo } from "../components/RepoContext";
 import Navbar from "../components/NavBar";
-import "../styles/Releases.css"; // create this file
+import "../styles/Releases.css";
 
 export default function Releases() {
   const { repoData } = useRepo();

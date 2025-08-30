@@ -3,7 +3,7 @@ import { getTeamProductivity } from "../util/githubService";
 import RepoForm from "../components/RepoForm";
 import Navbar from "../components/NavBar";
 import { useRepo } from "../components/RepoContext";
-import "../styles/Team.css"; // create this file
+import "../styles/Team.css";
 
 export default function Team() {
   const { repoData } = useRepo();
