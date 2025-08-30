@@ -1,11 +1,9 @@
-// src/pages/Reviews.jsx
 import React, { useEffect, useState } from "react";
 import { getReviewInsights } from "../util/githubService";
 import RepoForm from "../components/RepoForm";
 import Navbar from "../components/NavBar";
 import { useRepo } from "../components/RepoContext";
 import "../styles/Reviews.css";
-
 
 export default function Reviews() {
   const { repoData } = useRepo();
@@ -41,49 +39,47 @@ export default function Reviews() {
     <div>
       <Navbar />
 
-      <main className="p-6 space-y-6">
+      <main className="reviews-main">
         <RepoForm />
 
         {!repoData.owner || !repoData.repo ? (
-          <p className="text-gray-600">Please select a repository.</p>
+          <p className="text-gray">Please select a repository.</p>
         ) : (
-          <div className="space-y-6">
+          <div className="reviews-content">
             {loading ? (
-              <p className="text-gray-600">Loading...</p>
+              <p className="text-gray">Loading...</p>
             ) : error ? (
-              <p className="text-red-600 font-medium">{error}</p>
+              <p className="text-red">{error}</p>
             ) : data ? (
               <>
                 {/* Top Reviewers */}
-                <div className="card p-4 rounded-xl shadow bg-white">
-                  <h2 className="text-lg font-semibold mb-3">Top Reviewers</h2>
+                <div className="card">
+                  <h2>Top Reviewers</h2>
                   {data.topReviewers && data.topReviewers.length > 0 ? (
-                    <table className="table-auto w-full border-collapse">
+                    <table className="table">
                       <thead>
-                        <tr className="text-left border-b">
-                          <th className="py-2 px-3">Reviewer</th>
-                          <th className="py-2 px-3">Review Comments</th>
+                        <tr>
+                          <th>Reviewer</th>
+                          <th>Review Comments</th>
                         </tr>
                       </thead>
                       <tbody>
                         {data.topReviewers.map((rev) => (
-                          <tr key={rev.login} className="border-b">
-                            <td className="py-2 px-3">{rev.login}</td>
-                            <td className="py-2 px-3">{rev.count}</td>
+                          <tr key={rev.login}>
+                            <td>{rev.login}</td>
+                            <td>{rev.count}</td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
                   ) : (
-                    <p className="text-gray-500 italic">No reviewers found.</p>
+                    <p className="text-gray italic">No reviewers found.</p>
                   )}
                 </div>
 
                 {/* Avg Time to Merge */}
-                <div className="card p-4 rounded-xl shadow bg-white">
-                  <h2 className="text-lg font-semibold mb-3">
-                    Average Time to Merge
-                  </h2>
+                <div className="card">
+                  <h2>Average Time to Merge</h2>
                   <p>
                     {data.avgTimeHours
                       ? `${data.avgTimeHours.toFixed(2)} hours`
@@ -92,8 +88,8 @@ export default function Reviews() {
                 </div>
 
                 {/* Pending Reviews */}
-                <div className="card p-4 rounded-xl shadow bg-white">
-                  <h2 className="text-lg font-semibold mb-3">Pending Reviews</h2>
+                <div className="card">
+                  <h2>Pending Reviews</h2>
                   <p>
                     {data.pendingReviews
                       ? `${data.pendingReviews} PRs`
@@ -102,7 +98,7 @@ export default function Reviews() {
                 </div>
               </>
             ) : (
-              <p className="text-gray-500 italic">No data available.</p>
+              <p className="text-gray italic">No data available.</p>
             )}
           </div>
         )}

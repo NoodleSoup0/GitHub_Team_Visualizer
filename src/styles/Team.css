@@ -1,0 +1,71 @@
+/* Main container */
+.team-main {
+  padding: 1.5rem;
+  font-family: sans-serif;
+}
+
+/* Text colors */
+.text-gray {
+  color: #666;
+}
+
+.text-red {
+  color: #c00;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+/* Card style */
+.card {
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-bottom: 1.5rem;
+}
+
+/* Card titles */
+.card h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+/* Table styles */
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.95rem;
+  margin-top: 1rem;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.table th {
+  text-align: left;
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+.table td:first-child {
+  text-align: left;
+}
+
+.table td:last-child {
+  text-align: right;
+  font-family: monospace;
+}
+
+.table tr:nth-child(even) {
+  background-color: #fafafa;
+}

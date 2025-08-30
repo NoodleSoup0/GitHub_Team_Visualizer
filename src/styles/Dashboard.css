@@ -1,0 +1,61 @@
+/* Main container */
+.dashboard-main {
+  padding: 1.5rem;
+  font-family: sans-serif;
+}
+
+/* Text colors */
+.text-gray {
+  color: #666;
+}
+
+.text-red {
+  color: #c00;
+}
+
+.italic {
+  font-style: italic;
+}
+
+/* Card style */
+.card {
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-bottom: 1.5rem;
+}
+
+/* Card title */
+.card h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* Stats grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Individual stat box */
+.stat h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.stat p {
+  font-size: 0.875rem;
+  color: #666;
+  margin: 0;
+}

@@ -38,35 +38,6 @@ header h1 {
   color: #222;
 }
 
-nav a {
-  margin: 0 1rem;
-  text-decoration: none;
-  color: #222;
-  font-weight: 500;
-  position: relative;
-}
-
-nav a:hover,
-nav a.active {
-  color: #111;
-}
-
-nav a::after {
-  content: "";
-  position: absolute;
-  width: 0%;
-  height: 2px;
-  left: 0;
-  bottom: -4px;
-  background: var(--accent);
-  transition: width 0.3s ease;
-}
-
-nav a:hover::after,
-nav a.active::after {
-  width: 100%;
-}
-
 /* Main layout */
 main {
   padding: 2rem;

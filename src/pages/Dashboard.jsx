@@ -3,6 +3,7 @@ import RepoForm from "../components/RepoForm";
 import { getRepoStats } from "../util/githubService";
 import Navbar from "../components/NavBar";
 import { useRepo } from "../components/RepoContext";
+import "../styles/Dashboard.css"; // create this file
 
 export default function Dashboard() {
   const { repoData } = useRepo();
@@ -26,40 +27,40 @@ export default function Dashboard() {
     <div>
       <Navbar />
 
-      <main className="p-6 space-y-6">
+      <main className="dashboard-main">
         <RepoForm />
 
         {repoData.owner && repoData.repo && (
-          <div className="card p-4 rounded-xl shadow bg-white">
-            <h2 className="text-xl font-semibold mb-4">
+          <div className="card">
+            <h2>
               Team Overview for {repoData.owner}/{repoData.repo}
             </h2>
 
             {loading ? (
-              <p className="text-gray-600">Loading stats...</p>
+              <p className="text-gray">Loading stats...</p>
             ) : stats?.error ? (
-              <p className="text-red-600 font-medium">{stats.error}</p>
+              <p className="text-red">{stats.error}</p>
             ) : stats ? (
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="stat text-center">
-                  <h3 className="text-lg font-bold">{stats.commits}</h3>
-                  <p className="text-sm text-gray-500">Commits</p>
+              <div className="stats-grid">
+                <div className="stat">
+                  <h3>{stats.commits}</h3>
+                  <p>Commits</p>
                 </div>
-                <div className="stat text-center">
-                  <h3 className="text-lg font-bold">{stats.prsMerged}</h3>
-                  <p className="text-sm text-gray-500">PRs Merged</p>
+                <div className="stat">
+                  <h3>{stats.prsMerged}</h3>
+                  <p>PRs Merged</p>
                 </div>
-                <div className="stat text-center">
-                  <h3 className="text-lg font-bold">{stats.issuesClosed}</h3>
-                  <p className="text-sm text-gray-500">Issues Closed</p>
+                <div className="stat">
+                  <h3>{stats.issuesClosed}</h3>
+                  <p>Issues Closed</p>
                 </div>
-                <div className="stat text-center">
-                  <h3 className="text-lg font-bold">{stats.milestones}</h3>
-                  <p className="text-sm text-gray-500">Active Milestones</p>
+                <div className="stat">
+                  <h3>{stats.milestones}</h3>
+                  <p>Active Milestones</p>
                 </div>
               </div>
             ) : (
-              <p className="text-gray-500 italic">No data available.</p>
+              <p className="text-gray italic">No data available.</p>
             )}
           </div>
         )}

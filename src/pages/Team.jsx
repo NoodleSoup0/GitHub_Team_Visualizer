@@ -1,9 +1,9 @@
-// src/pages/Team.jsx
 import React, { useState, useEffect } from "react";
 import { getTeamProductivity } from "../util/githubService";
 import RepoForm from "../components/RepoForm";
 import Navbar from "../components/NavBar";
 import { useRepo } from "../components/RepoContext";
+import "../styles/Team.css"; // create this file
 
 export default function Team() {
   const { repoData } = useRepo();
@@ -45,44 +45,42 @@ export default function Team() {
     <div>
       <Navbar />
 
-      <main className="p-6 space-y-6">
+      <main className="team-main">
         <RepoForm />
 
         {!repoData.owner || !repoData.repo ? (
-          <p className="text-gray-600">Please select a repository.</p>
+          <p className="text-gray">Please select a repository.</p>
         ) : (
-          <div className="card p-4 rounded-xl shadow bg-white">
-            <h2 className="text-xl font-semibold mb-3">
-              Commits, PRs, Issues per Member
-            </h2>
+          <div className="card">
+            <h2>Commits, PRs, Issues per Member</h2>
 
             {loading ? (
-              <p className="text-gray-600">Loading...</p>
+              <p className="text-gray">Loading...</p>
             ) : error ? (
-              <p className="text-red-600 font-medium">{error}</p>
+              <p className="text-red">{error}</p>
             ) : teamData.length > 0 ? (
-              <table className="table-auto w-full border-collapse">
+              <table className="table">
                 <thead>
-                  <tr className="text-left border-b">
-                    <th className="py-2 px-3">Member</th>
-                    <th className="py-2 px-3">Commits</th>
-                    <th className="py-2 px-3">PRs Merged</th>
-                    <th className="py-2 px-3">Issues Closed</th>
+                  <tr>
+                    <th>Member</th>
+                    <th>Commits</th>
+                    <th>PRs Merged</th>
+                    <th>Issues Closed</th>
                   </tr>
                 </thead>
                 <tbody>
                   {teamData.map((member) => (
-                    <tr key={member.login} className="border-b">
-                      <td className="py-2 px-3">{member.login}</td>
-                      <td className="py-2 px-3">{member.commits}</td>
-                      <td className="py-2 px-3">{member.prs}</td>
-                      <td className="py-2 px-3">{member.issues}</td>
+                    <tr key={member.login}>
+                      <td>{member.login}</td>
+                      <td>{member.commits}</td>
+                      <td>{member.prs}</td>
+                      <td>{member.issues}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             ) : (
-              <p className="text-gray-500 italic">No team data available.</p>
+              <p className="text-gray italic">No team data available.</p>
             )}
           </div>
         )}

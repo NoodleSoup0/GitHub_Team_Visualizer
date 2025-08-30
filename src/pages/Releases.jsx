@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import RepoForm from "../components/RepoForm";
 import { useRepo } from "../components/RepoContext";
 import Navbar from "../components/NavBar";
+import "../styles/Releases.css"; // create this file
 
 export default function Releases() {
   const { repoData } = useRepo();
@@ -18,7 +19,6 @@ export default function Releases() {
       setError(null);
 
       try {
-        // Fetch open and closed issues count
         const openRes = await fetch(
           `https://api.github.com/search/issues?q=repo:${repoData.owner}/${repoData.repo}+type:issue+state:open`
         );
@@ -36,7 +36,6 @@ export default function Releases() {
           closed: closedData.total_count,
         });
 
-        // Fetch milestones
         const milestoneRes = await fetch(
           `https://api.github.com/repos/${repoData.owner}/${repoData.repo}/milestones?state=all`
         );
@@ -61,16 +60,16 @@ export default function Releases() {
     <div>
       <Navbar />
 
-      <main className="p-6 space-y-6">
+      <main className="releases-main">
         <RepoForm />
 
-        <div className="card p-4 rounded-xl shadow bg-white">
-          <h2 className="text-xl font-semibold mb-3">Open vs Closed Issues</h2>
+        <div className="card">
+          <h2>Open vs Closed Issues</h2>
 
           {loading ? (
-            <p className="text-gray-600">Loading issues...</p>
+            <p className="text-gray">Loading issues...</p>
           ) : error ? (
-            <p className="text-red-600 font-medium">{error}</p>
+            <p className="text-red">{error}</p>
           ) : (
             <p>
               Open: <span className="font-semibold">{issues.open}</span> | Closed:{" "}
@@ -79,34 +78,34 @@ export default function Releases() {
           )}
         </div>
 
-        <div className="card p-4 rounded-xl shadow bg-white">
-          <h2 className="text-xl font-semibold mb-3">Milestone Progress</h2>
+        <div className="card">
+          <h2>Milestone Progress</h2>
 
           {loading ? (
-            <p className="text-gray-600">Loading milestones...</p>
+            <p className="text-gray">Loading milestones...</p>
           ) : error ? (
-            <p className="text-red-600 font-medium">{error}</p>
+            <p className="text-red">{error}</p>
           ) : milestones.length > 0 ? (
-            <table className="table-auto w-full border-collapse">
+            <table className="table">
               <thead>
-                <tr className="text-left border-b">
-                  <th className="py-2 px-3">Milestone</th>
-                  <th className="py-2 px-3">Open Issues</th>
-                  <th className="py-2 px-3">Closed Issues</th>
+                <tr>
+                  <th>Milestone</th>
+                  <th>Open Issues</th>
+                  <th>Closed Issues</th>
                 </tr>
               </thead>
               <tbody>
                 {milestones.map((m) => (
-                  <tr key={m.id} className="border-b">
-                    <td className="py-2 px-3">{m.title}</td>
-                    <td className="py-2 px-3">{m.open_issues}</td>
-                    <td className="py-2 px-3">{m.closed_issues}</td>
+                  <tr key={m.id}>
+                    <td>{m.title}</td>
+                    <td>{m.open_issues}</td>
+                    <td>{m.closed_issues}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           ) : (
-            <p className="text-gray-500 italic">No milestones found.</p>
+            <p className="text-gray italic">No milestones found.</p>
           )}
         </div>
       </main>
