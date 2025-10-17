@@ -1,6 +1,10 @@
 # Project Title: GitHub Team Visualizer
-# Author: Linh Ly
-# Project Video: [here](https://drive.google.com/file/d/1qi_YAL85jVkZVobRS2Lsjmjkp-hByE_r/view?usp=sharing)
+
+Author: Linh Ly
+
+Project Video: [here](https://drive.google.com/file/d/1qi_YAL85jVkZVobRS2Lsjmjkp-hByE_r/view?usp=sharing)
+
+Project Host Link: https://githubteamvisual.web.app
 
 ---
 
